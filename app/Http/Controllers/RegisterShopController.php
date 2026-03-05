@@ -35,7 +35,9 @@ class RegisterShopController extends Controller
             'slug' => Str::slug($request->shop_name) . '-' . rand(100, 999),
             'owner_name' => $request->owner_name,
             'phone' => $request->phone,
-            'is_active' => false, // يحتاج تفعيل من المطور
+            'is_active' => true, // تفعيل تلقائي للأسبوع الأول
+            'subscription_start' => now(),
+            'subscription_end' => now()->addDays(7),
         ]);
 
         // 2. إنشاء المستخدم المدير للمحل
@@ -48,6 +50,6 @@ class RegisterShopController extends Controller
             'is_super_admin' => false,
         ]);
 
-        return redirect()->route('login')->with('success', 'تم تسجيل المحل بنجاح! يرجى التواصل مع الإدارة لتفعيل الحساب بعد الدفع.');
+        return redirect()->route('login')->with('success', 'تم تسجيل المحل بنجاح! حسابك نشط الآن لفترة تجريبية مدتها أسبوع واحد مجاناً.');
     }
 }

@@ -19,10 +19,22 @@ class CheckShopStatus
                 return $next($request);
             }
 
-            // التأكد من حالة المحل
-            if (!$user->shop || !$user->shop->is_active) {
-                Auth::logout();
-                return redirect()->route('login')->with('error', 'حساب المحل الخاص بك غير مفعل حالياً. يرجى التواصل مع الإدارة.');
+            // التأكد من حالة المحل والاشتراك
+            if ($user->shop) {
+                $shop = $user->shop;
+
+                // 1. تحقق من انتهاء التاريخ
+                if ($shop->subscription_end && now()->greaterThan($shop->subscription_end)) {
+                    $shop->update(['is_active' => false]);
+                    Auth::logout();
+                    return redirect()->route('login')->with('error', 'انتهت فترة اشتراكك أو الفترة التجريبية للمحل. يرجى التواصل مع الإدارة للتجديد.');
+                }
+
+                // 2. تحقق من التفعيل اليدوي
+                if (!$shop->is_active) {
+                    Auth::logout();
+                    return redirect()->route('login')->with('error', 'حساب المحل الخاص بك غير مفعل حالياً. يرجى التواصل مع الإدارة.');
+                }
             }
         }
 
