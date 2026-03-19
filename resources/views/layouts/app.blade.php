@@ -248,7 +248,15 @@
             white-space: nowrap;
         }
 
-        /* ===== PAGE CONTENT ===== */
+        .user-badge:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+            background: #fff;
+        }
+
+        .user-badge:hover .avatar {
+            background: var(--green-dark);
+        }
         .page-content {
             padding: 20px;
             flex: 1;
@@ -588,10 +596,10 @@
                     <small class="d-none d-sm-block">@yield('page-subtitle', '')</small>
                 </div>
             </div>
-            <div class="user-badge shadow-sm">
+            <a href="{{ route('profile.edit') }}" class="user-badge shadow-sm text-decoration-none">
                 <div class="avatar">{{ mb_substr(Auth::user()->shop->owner_name ?? Auth::user()->name, 0, 1) }}</div>
                 <span class="name">{{ Auth::user()->shop->owner_name ?? Auth::user()->name }}</span>
-            </div>
+            </a>
         </header>
 
         {{-- Content --}}

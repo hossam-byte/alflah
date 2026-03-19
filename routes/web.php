@@ -10,7 +10,8 @@ use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\SaleController;
 use App\Http\Controllers\SupplierController;
-use App\Http\Controllers\RegisterShopController; // Added this line
+use App\Http\Controllers\RegisterShopController;
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 // ==============================
@@ -54,6 +55,10 @@ Route::middleware(['auth', 'shop_active'])->group(function () {
     // التقارير
     Route::get('/reports/profit', [ReportController::class, 'profit'])->name('reports.profit');
     Route::get('/reports/stock', [ReportController::class, 'stock'])->name('reports.stock');
+
+    // الملف الشخصي
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
 
     // API للـ Ajax
     Route::get('/api/product/{id}', [ProductController::class, 'getProductData'])->name('api.product');

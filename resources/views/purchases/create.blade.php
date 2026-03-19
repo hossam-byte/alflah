@@ -9,8 +9,12 @@
             {{-- بيانات الفاتورة الأساسية --}}
             <div class="col-12 col-lg-4">
                 <div class="content-card">
-                    <div class="content-card-header">
+                    <div class="content-card-header d-flex justify-content-between align-items-center">
                         <h6><i class="fas fa-file-invoice me-2"></i> بيانات الفاتورة</h6>
+                        <button type="button" class="btn btn-sm btn-outline-primary rounded-pill px-3" onclick="document.getElementById('invoice-scanner').click()">
+                            <i class="fas fa-camera me-1"></i> مسح فاتورة
+                        </button>
+                        <input type="file" id="invoice-scanner" accept="image/*" class="d-none" onchange="handleInvoiceScan(this)">
                     </div>
                     <div class="mb-3">
                         <label class="form-label">رقم الفاتورة</label>
@@ -140,8 +144,97 @@
     </template>
 
     @push('scripts')
-        <script>
-            let rowIndex = 0;
+<script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+    <script>
+        let rowIndex = 0;
+        const productsList = @json($products);
+
+        // OCR Scanner Logic
+        async function handleInvoiceScan(input) {
+            if (!input.files || !input.files[0]) return;
+
+            const file = input.files[0];
+            const btn = input.previousElementSibling;
+            const originalHtml = btn.innerHTML;
+
+            btn.disabled = true;
+            btn.innerHTML = '<span class="spinner-border spinner-border-sm me-1"></span> جاري القراءة...';
+
+            try {
+                const { data: { text } } = await Tesseract.recognize(file, 'ara', {
+                    logger: m => console.log(m)
+                });
+
+                processOcrText(text);
+                alert('تمت قراءة الفاتورة بنجاح! يرجى مراجعة البنود المضافة.');
+            } catch (err) {
+                console.error(err);
+                alert('عذراً، حدث خطأ أثناء قراءة الفاتورة. تأكد من وضوح الصورة.');
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = originalHtml;
+                input.value = '';
+            }
+        }
+
+        function processOcrText(text) {
+            const lines = text.split('\n');
+            const foundItems = [];
+
+            lines.forEach(line => {
+                const cleanLine = line.trim();
+                if (cleanLine.length < 3) return;
+
+                // Simple logic: find product by name in the line
+                productsList.forEach(product => {
+                    if (cleanLine.includes(product.name)) {
+                        // Extract numbers from the line for quantity and price
+                        const numbers = cleanLine.match(/[\d.]+/g) || [];
+                        const quantity = numbers.length > 0 ? parseFloat(numbers[0]) : 1;
+                        const price = numbers.length > 1 ? parseFloat(numbers[1]) : product.purchase_price;
+
+                        foundItems.push({
+                            id: product.id,
+                            price: price,
+                            qty: quantity
+                        });
+                    }
+                });
+            });
+
+            if (foundItems.length > 0) {
+                // Clear initial empty row if any
+                const currentRows = document.querySelectorAll('.item-row');
+                if (currentRows.length === 1) {
+                    const firstSelect = currentRows[0].querySelector('.product-select');
+                    if (!firstSelect.value) currentRows[0].remove();
+                }
+
+                foundItems.forEach(item => {
+                    addScannedRow(item);
+                });
+            }
+        }
+
+        function addScannedRow(item) {
+            document.getElementById('no-items-msg').classList.add('d-none');
+            const template = document.getElementById('row-template').innerHTML;
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = template.replace(/INDEX/g, rowIndex++);
+            const newRow = tempDiv.querySelector('.item-row');
+
+            const select = newRow.querySelector('.product-select');
+            select.value = item.id;
+
+            const qtyInput = newRow.querySelector('.qty-input');
+            qtyInput.value = item.qty;
+
+            const priceInput = newRow.querySelector('.price-input');
+            priceInput.value = item.price;
+
+            document.querySelector('#items-table tbody').appendChild(newRow);
+            calculateRow(qtyInput);
+        }
 
             function addRow() {
                 document.getElementById('no-items-msg').classList.add('d-none');
