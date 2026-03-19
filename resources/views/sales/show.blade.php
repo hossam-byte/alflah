@@ -92,8 +92,8 @@
                                             {{ (float) $item->quantity }}
                                             <span class="text-muted small">{{ $item->unit_name ?? $item->product->unit }}</span>
                                         </td>
-                                        <td class="text-center">{{ number_format($item->unit_price, 2) }}</td>
-                                        <td class="text-center fw-bold">{{ number_format($item->total_price, 2) }}</td>
+                                        <td class="text-center">{{ (float) $item->unit_price }}</td>
+                                        <td class="text-center fw-bold">{{ (float) $item->total_price }}</td>
                                     </tr>
                                 @endforeach
                             </tbody>
@@ -101,28 +101,28 @@
                                 <tr>
                                     <td colspan="4" class="text-start fw-bold">إجمالي الفاتورة:</td>
                                     <td class="text-start fw-bold">
-                                        {{ number_format($sale->total_amount + $sale->discount, 2) }} ج.م</td>
+                                        {{ (float) ($sale->total_amount + $sale->discount) }} ج.م</td>
                                 </tr>
                                 @if($sale->discount > 0)
                                     <tr>
                                         <td colspan="4" class="text-start fw-bold text-danger">الخصم:</td>
-                                        <td class="text-start fw-bold text-danger">- {{ number_format($sale->discount, 2) }} ج.م
+                                        <td class="text-start fw-bold text-danger">- {{ (float) $sale->discount }} ج.م
                                         </td>
                                     </tr>
                                 @endif
                                 <tr class="table-info">
                                     <td colspan="4" class="text-start fw-bold fs-5">الصافي:</td>
-                                    <td class="text-start fw-bold fs-5">{{ number_format($sale->total_amount, 2) }} ج.م</td>
+                                    <td class="text-start fw-bold fs-5">{{ (float) $sale->total_amount }} ج.م</td>
                                 </tr>
                                 <tr>
                                     <td colspan="4" class="text-start fw-bold">المسدد من العميل:</td>
-                                    <td class="text-start fw-bold text-success">{{ number_format($sale->paid_amount, 2) }}
+                                    <td class="text-start fw-bold text-success">{{ (float) $sale->paid_amount }}
                                         ج.م</td>
                                 </tr>
                                 <tr>
                                     <td colspan="4" class="text-start fw-bold">المتبقي على العميل:</td>
                                     <td class="text-start fw-bold text-danger">
-                                        {{ number_format($sale->remaining_amount, 2) }} ج.م</td>
+                                        {{ (float) $sale->remaining_amount }} ج.م</td>
                                 </tr>
                             </tfoot>
                         </table>

@@ -8,7 +8,7 @@
         <div class="col-12 col-md-4">
             <div class="stat-card card-blue shadow">
                 <div class="icon"><i class="fas fa-shopping-cart"></i></div>
-                <div class="value">{{ number_format($totalAmount, 2) }}</div>
+                <div class="value">{{ (float) $totalAmount }}</div>
                 <div class="label">إجمالي المشتريات (ج.م)</div>
             </div>
         </div>
@@ -67,7 +67,7 @@
                             <td class="fw-bold text-primary">{{ $p->invoice_number }}</td>
                             <td class="fw-bold">{{ $p->supplier->name ?? 'مورد عام' }}</td>
                             <td>{{ $p->purchase_date->format('Y-m-d') }}</td>
-                            <td class="fw-bold">{{ number_format($p->total_amount, 2) }}</td>
+                            <td class="fw-bold">{{ (float) $p->total_amount }}</td>
                             <td>
                                 @if($p->payment_status === 'paid')
                                     <span class="badge badge-paid rounded-pill">مدفوع</span>

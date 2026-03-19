@@ -8,14 +8,14 @@
         <div class="col-12 col-md-6 col-lg-3">
             <div class="stat-card card-green shadow">
                 <div class="icon"><i class="fas fa-cash-register"></i></div>
-                <div class="value">{{ number_format($totalSales, 2) }}</div>
+                <div class="value">{{ (float) $totalSales }}</div>
                 <div class="label">إجمالي المبيعات (ج.م)</div>
             </div>
         </div>
         <div class="col-12 col-md-6 col-lg-3">
             <div class="stat-card card-gold shadow">
                 <div class="icon"><i class="fas fa-chart-line"></i></div>
-                <div class="value">{{ number_format($totalProfit, 2) }}</div>
+                <div class="value">{{ (float) $totalProfit }}</div>
                 <div class="label">إجمالي الأرباح (ج.م)</div>
             </div>
         </div>
@@ -75,10 +75,10 @@
                             <td class="fw-bold text-success">{{ $s->invoice_number }}</td>
                             <td class="fw-bold">{{ $s->customer->name ?? 'عميل كاش' }}</td>
                             <td>{{ $s->sale_date->format('Y-m-d') }}</td>
-                            <td class="fw-bold">{{ number_format($s->total_amount, 2) }}</td>
+                            <td class="fw-bold">{{ (float) $s->total_amount }}</td>
                             <td class="fw-bold">
                                 <span class="{{ $s->profit >= 0 ? 'text-success' : 'text-danger' }} small">
-                                    {{ $s->profit >= 0 ? '+' : '' }}{{ number_format($s->profit, 2) }}
+                                    {{ $s->profit >= 0 ? '+' : '' }}{{ (float) $s->profit }}
                                 </span>
                             </td>
                             <td>

@@ -80,8 +80,8 @@
                                     <td class="text-center">{{ $loop->iteration }}</td>
                                     <td class="fw-bold">{{ $item->product->name }}</td>
                                     <td class="text-center">{{ $item->quantity }} {{ $item->product->unit }}</td>
-                                    <td class="text-center">{{ number_format($item->unit_price, 2) }}</td>
-                                    <td class="text-center fw-bold">{{ number_format($item->total_price, 2) }}</td>
+                                    <td class="text-center">{{ (float) $item->unit_price }}</td>
+                                    <td class="text-center fw-bold">{{ (float) $item->total_price }}</td>
                                 </tr>
                             @endforeach
                         </tbody>
@@ -89,28 +89,28 @@
                             <tr>
                                 <td colspan="4" class="text-start fw-bold">إجمالي الفاتورة:</td>
                                 <td class="text-start fw-bold">
-                                    {{ number_format($purchase->total_amount + $purchase->discount, 2) }} ج.م</td>
+                                    {{ (float) ($purchase->total_amount + $purchase->discount) }} ج.م</td>
                             </tr>
                             @if($purchase->discount > 0)
                                 <tr>
                                     <td colspan="4" class="text-start fw-bold text-danger">الخصم:</td>
-                                    <td class="text-start fw-bold text-danger">- {{ number_format($purchase->discount, 2) }}
-                                        ج.m</td>
+                                    <td class="text-start fw-bold text-danger">- {{ (float) $purchase->discount }}
+                                        ج.م</td>
                                 </tr>
                             @endif
                             <tr class="table-info">
                                 <td colspan="4" class="text-start fw-bold fs-5">الصافي:</td>
-                                <td class="text-start fw-bold fs-5">{{ number_format($purchase->total_amount, 2) }} ج.م
+                                <td class="text-start fw-bold fs-5">{{ (float) $purchase->total_amount }} ج.م
                                 </td>
                             </tr>
                             <tr>
                                 <td colspan="4" class="text-start fw-bold">المسدد للمورد:</td>
-                                <td class="text-start fw-bold">{{ number_format($purchase->paid_amount, 2) }} ج.م</td>
+                                <td class="text-start fw-bold">{{ (float) $purchase->paid_amount }} ج.م</td>
                             </tr>
                             <tr>
                                 <td colspan="4" class="text-start fw-bold">المتبقي للمورد:</td>
                                 <td class="text-start fw-bold text-danger">
-                                    {{ number_format($purchase->total_amount - $purchase->paid_amount, 2) }} ج.م</td>
+                                    {{ (float) ($purchase->total_amount - $purchase->paid_amount) }} ج.م</td>
                             </tr>
                         </tfoot>
                     </table>

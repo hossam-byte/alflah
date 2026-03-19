@@ -20,7 +20,7 @@
                     <p class="text-muted small mb-3">{{ $customer->phone ?? 'بدون رقم هاتف' }}</p>
                     <div class="alert {{ $customer->balance >= 0 ? 'alert-success' : 'alert-danger' }} p-2 mb-0">
                         <small class="d-block text-muted">الرصيد الحالي</small>
-                        <span class="fw-bold fs-5">{{ number_format($customer->balance, 2) }} ج.م</span>
+                        <span class="fw-bold fs-5">{{ (float) $customer->balance }} ج.م</span>
                     </div>
                 </div>
                 <hr class="mt-0">
@@ -59,7 +59,7 @@
                                 <tr>
                                     <td class="fw-bold text-success">{{ $sale->invoice_number }}</td>
                                     <td>{{ $sale->sale_date->format('Y-m-d') }}</td>
-                                    <td class="fw-bold">{{ number_format($sale->total_amount, 2) }}</td>
+                                    <td class="fw-bold">{{ (float) $sale->total_amount }}</td>
                                     <td>
                                         @if($sale->payment_status === 'paid')
                                             <span class="badge badge-paid rounded-pill">مدفوع</span>

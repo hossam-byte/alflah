@@ -7,7 +7,7 @@
         <div class="col-12 col-md-6">
             <div class="stat-card card-teal">
                 <div class="icon"><i class="fas fa-boxes"></i></div>
-                <div class="value">{{ number_format($totalStockValue, 2) }} ج.م</div>
+                <div class="value">{{ (float) $totalStockValue }} ج.م</div>
                 <div class="label">إجمالي قيمة البضاعة بالمحل (بسعر الشراء)</div>
             </div>
         </div>
@@ -60,7 +60,7 @@
                         <tr class="{{ $product->stock <= $product->min_stock ? 'table-warning' : '' }}">
                             <td class="fw-bold">{{ $product->name }}</td>
                             <td class="text-center">{{ $product->category->name ?? '-' }}</td>
-                            <td class="text-center">{{ number_format($product->purchase_price, 2) }}</td>
+                            <td class="text-center">{{ (float) $product->purchase_price }}</td>
                             <td class="text-center fw-bold">
                                 {{ $product->stock }} {{ $product->unit }}
                                 @if($product->stock <= $product->min_stock)
@@ -68,7 +68,7 @@
                                 @endif
                             </td>
                             <td class="text-center fw-bold text-success">
-                                {{ number_format($product->stock * $product->purchase_price, 2) }}</td>
+                                {{ (float) ($product->stock * $product->purchase_price) }}</td>
                         </tr>
                     @endforeach
                 </tbody>

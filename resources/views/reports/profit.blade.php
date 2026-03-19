@@ -19,28 +19,28 @@
         <div class="col-6 col-md-3">
             <div class="stat-card card-green">
                 <div class="icon"><i class="fas fa-cash-register"></i></div>
-                <div class="value">{{ number_format($totalSales, 2) }}</div>
+                <div class="value">{{ (float) $totalSales }}</div>
                 <div class="label">إجمالي المبيعات (ج.م)</div>
             </div>
         </div>
         <div class="col-6 col-md-3">
             <div class="stat-card card-gold">
                 <div class="icon"><i class="fas fa-funnel-dollar"></i></div>
-                <div class="value">{{ number_format($totalProfit, 2) }}</div>
+                <div class="value">{{ (float) $totalProfit }}</div>
                 <div class="label">إجمالي أرباح البيع (ج.م)</div>
             </div>
         </div>
         <div class="col-6 col-md-3">
             <div class="stat-card card-red">
                 <div class="icon"><i class="fas fa-wallet"></i></div>
-                <div class="value">{{ number_format($expenses, 2) }}</div>
+                <div class="value">{{ (float) $expenses }}</div>
                 <div class="label">إجمالي المصاريف (ج.م)</div>
             </div>
         </div>
         <div class="col-6 col-md-3">
             <div class="stat-card card-blue" style="background: linear-gradient(135deg, #2e7d32 0%, #1b5e20 100%)">
                 <div class="icon"><i class="fas fa-hand-holding-usd"></i></div>
-                <div class="value">{{ number_format($netProfit, 2) }}</div>
+                <div class="value">{{ (float) $netProfit }}</div>
                 <div class="label">صافي الربح النهائي (ج.م)</div>
             </div>
         </div>
@@ -67,8 +67,8 @@
                             <td>{{ $sale->invoice_number }}</td>
                             <td>{{ $sale->sale_date->format('Y-m-d') }}</td>
                             <td>{{ $sale->customer->name ?? 'كاش' }}</td>
-                            <td class="fw-bold">{{ number_format($sale->total_amount, 2) }}</td>
-                            <td class="text-success fw-bold">+ {{ number_format($sale->profit, 2) }}</td>
+                            <td class="fw-bold">{{ (float) $sale->total_amount }}</td>
+                            <td class="text-success fw-bold">+ {{ (float) $sale->profit }}</td>
                         </tr>
                     @empty
                         <tr>

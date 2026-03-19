@@ -9,28 +9,28 @@
         <div class="col-6 col-md-3">
             <div class="stat-card card-green shadow-sm">
                 <div class="icon"><i class="fas fa-cash-register"></i></div>
-                <div class="value">{{ number_format($stats['sales_today'], 2) }}</div>
+                <div class="value">{{ (float) $stats['sales_today'] }}</div>
                 <div class="label">مبيعات اليوم (ج.م)</div>
             </div>
         </div>
         <div class="col-6 col-md-3">
             <div class="stat-card card-gold shadow-sm">
                 <div class="icon"><i class="fas fa-coins"></i></div>
-                <div class="value">{{ number_format($stats['profit_today'], 2) }}</div>
+                <div class="value">{{ (float) $stats['profit_today'] }}</div>
                 <div class="label">أرباح اليوم (ج.م)</div>
             </div>
         </div>
         <div class="col-6 col-md-3">
             <div class="stat-card card-blue shadow-sm">
                 <div class="icon"><i class="fas fa-shopping-basket"></i></div>
-                <div class="value">{{ number_format($stats['purchases_today'], 2) }}</div>
+                <div class="value">{{ (float) $stats['purchases_today'] }}</div>
                 <div class="label">مشتريات اليوم (ج.م)</div>
             </div>
         </div>
         <div class="col-6 col-md-3">
             <div class="stat-card card-red shadow-sm">
                 <div class="icon"><i class="fas fa-wallet"></i></div>
-                <div class="value">{{ number_format($stats['expenses_today'], 2) }}</div>
+                <div class="value">{{ (float) $stats['expenses_today'] }}</div>
                 <div class="label">مصروفات اليوم (ج.م)</div>
             </div>
         </div>
@@ -100,7 +100,7 @@
                                 <tr>
                                     <td class="fw-bold text-success">#{{ $sale->invoice_number }}</td>
                                     <td>{{ $sale->customer->name ?? 'كاش' }}</td>
-                                    <td class="fw-bold">{{ number_format($sale->total_amount, 2) }}</td>
+                                    <td class="fw-bold">{{ (float) $sale->total_amount }}</td>
                                     <td>
                                         <span
                                             class="badge {{ $sale->payment_status === 'paid' ? 'badge-paid' : ($sale->payment_status === 'partial' ? 'badge-partial' : 'badge-unpaid') }} rounded-pill"

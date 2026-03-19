@@ -27,7 +27,7 @@
                     <div class="p-3 rounded-4 bg-light border">
                         <small class="d-block text-muted mb-1 text-uppercase fw-semibold" style="letter-spacing: 0.5px">الرصيد المستحق له</small>
                         <span class="fw-bold fs-4 {{ $supplier->balance > 0 ? 'text-danger' : 'text-success' }}">
-                            {{ number_format($supplier->balance, 2) }} ج.م
+                            {{ (float) $supplier->balance }} ج.م
                         </span>
                     </div>
                 </div>
@@ -90,7 +90,7 @@
                                 <tr>
                                     <td class="fw-bold text-primary">{{ $purchase->invoice_number }}</td>
                                     <td>{{ $purchase->purchase_date->format('Y-m-d') }}</td>
-                                    <td class="fw-bold">{{ number_format($purchase->total_amount, 2) }}</td>
+                                    <td class="fw-bold">{{ (float) $purchase->total_amount }}</td>
                                     <td>
                                         @if($purchase->payment_status === 'paid')
                                             <span class="badge bg-success-subtle text-success border border-success-subtle rounded-pill px-3">مدفوع</span>

@@ -67,13 +67,13 @@
                                 @endif
                             </td>
                             <td><span class="badge bg-light text-dark">{{ $product->category->name ?? '-' }}</span></td>
-                            <td>{{ number_format($product->purchase_price, 2) }}</td>
+                            <td>{{ (float) $product->purchase_price }}</td>
                             <td>
-                                <div>{{ number_format($product->sale_price, 2) }} <small
+                                <div>{{ (float) $product->sale_price }} <small
                                         class="text-muted">{{ $product->unit }}</small></div>
                                 @if($product->has_sub_units)
                                     <div class="text-success small" style="font-size: 0.8rem;">
-                                        {{ number_format($product->sub_unit_sale_price, 2) }}
+                                        {{ (float) $product->sub_unit_sale_price }}
                                         <small>{{ $product->sub_unit_name }}</small>
                                     </div>
                                 @endif

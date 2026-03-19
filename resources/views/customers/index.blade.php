@@ -43,9 +43,9 @@
                             <td><small>{{ $c->address ?? '-' }}</small></td>
                             <td>
                                 @if($c->balance > 0)
-                                    <span class="text-success fw-bold">{{ number_format($c->balance, 2) }} ج.م</span>
+                                    <span class="text-success fw-bold">{{ (float) $c->balance }} ج.م</span>
                                 @elseif($c->balance < 0)
-                                    <span class="text-danger fw-bold">{{ number_format(abs($c->balance), 2) }} ج.م</span>
+                                    <span class="text-danger fw-bold">{{ (float) abs($c->balance) }} ج.م</span>
                                 @else
                                     <span class="text-muted">٠</span>
                                 @endif

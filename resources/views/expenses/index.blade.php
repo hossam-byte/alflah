@@ -8,7 +8,7 @@
         <div class="col-12 col-md-4">
             <div class="stat-card card-red shadow">
                 <div class="icon"><i class="fas fa-receipt"></i></div>
-                <div class="value">{{ number_format($totalAmount, 2) }}</div>
+                <div class="value">{{ (float) $totalAmount }}</div>
                 <div class="label">إجمالي مصروفات الفلترة (ج.م)</div>
             </div>
         </div>
@@ -62,7 +62,7 @@
                             <td>{{ $loop->iteration }}</td>
                             <td class="fw-bold">{{ $e->title }}</td>
                             <td><span class="badge bg-light text-dark px-2">{{ $e->category ?? '-' }}</span></td>
-                            <td class="text-danger fw-bold">{{ number_format($e->amount, 2) }} ج.م</td>
+                            <td class="text-danger fw-bold">{{ (float) $e->amount }} ج.م</td>
                             <td>{{ $e->expense_date->format('Y-m-d') }}</td>
                             <td>
                                 <div class="d-flex gap-1">

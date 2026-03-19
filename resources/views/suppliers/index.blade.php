@@ -43,7 +43,7 @@
                             <td><small>{{ $s->address ?? '-' }}</small></td>
                             <td>
                                 @if($s->balance > 0)
-                                    <span class="text-danger fw-bold">{{ number_format($s->balance, 2) }} ج.م</span>
+                                    <span class="text-danger fw-bold">{{ (float) $s->balance }} ج.م</span>
                                 @else
                                     <span class="text-muted">٠</span>
                                 @endif
