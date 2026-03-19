@@ -72,7 +72,9 @@
             </table>
         </div>
         @if($suppliers->hasPages())
-            <div class="mt-3">{{ $suppliers->links() }}</div>
+            <div class="d-flex justify-content-center mt-4">
+                {{ $suppliers->links() }}
+            </div>
         @endif
     </div>
 @endsection

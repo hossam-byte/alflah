@@ -99,7 +99,9 @@
             </table>
         </div>
         @if($purchases->hasPages())
-            <div class="mt-3">{{ $purchases->links() }}</div>
+            <div class="d-flex justify-content-center mt-4">
+                {{ $purchases->links() }}
+            </div>
         @endif
     </div>
 @endsection

@@ -121,7 +121,9 @@
         </div>
 
         @if($products->hasPages())
-            <div class="mt-3">{{ $products->links() }}</div>
+            <div class="d-flex justify-content-center mt-4">
+                {{ $products->links() }}
+            </div>
         @endif
     </div>
 @endsection

@@ -74,7 +74,9 @@
             </table>
         </div>
         @if($customers->hasPages())
-            <div class="mt-3">{{ $customers->links() }}</div>
+            <div class="d-flex justify-content-center mt-4">
+                {{ $customers->links() }}
+            </div>
         @endif
     </div>
 @endsection

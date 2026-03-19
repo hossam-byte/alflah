@@ -118,7 +118,7 @@
                     </table>
                 </div>
                 @if($purchases->hasPages())
-                    <div class="p-3 border-top">
+                    <div class="d-flex justify-content-center mt-3 p-3 border-top">
                         {{ $purchases->links() }}
                     </div>
                 @endif
