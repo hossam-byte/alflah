@@ -43,20 +43,29 @@
                         <label for="password" class="form-label fw-semibold small text-muted">كلمة المرور الجديدة</label>
                         <div class="input-group">
                             <span class="input-group-text bg-light border-end-0"><i class="fas fa-key text-muted"></i></span>
-                            <input type="password" name="password" id="password" class="form-control bg-light border-start-0 @error('password') is-invalid @enderror" placeholder="اتركها فارغة إذا لم ترد التغيير">
+                            <input type="password" name="password" id="password" class="form-control bg-light border-start-0 border-end-0 @error('password') is-invalid @enderror" placeholder="اتركها فارغة إذا لم ترد التغيير">
+                            <span class="input-group-text bg-light border-start-0 cursor-pointer" onclick="togglePassword()">
+                                <i class="fas fa-eye text-muted" id="toggleIcon"></i>
+                            </span>
                         </div>
                         @error('password')
                             <div class="invalid-feedback d-block mt-1">{{ $message }}</div>
                         @enderror
                     </div>
 
-                    <div class="mb-4">
-                        <label for="password_confirmation" class="form-label fw-semibold small text-muted">تأكيد كلمة المرور الجديدة</label>
-                        <div class="input-group">
-                            <span class="input-group-text bg-light border-end-0"><i class="fas fa-check-double text-muted"></i></span>
-                            <input type="password" name="password_confirmation" id="password_confirmation" class="form-control bg-light border-start-0" placeholder="أعد كتابة كلمة المرور">
-                        </div>
-                    </div>
+                    <script>
+                        function togglePassword() {
+                            const pwd = document.getElementById('password');
+                            const icon = document.getElementById('toggleIcon');
+                            if (pwd.type === 'password') {
+                                pwd.type = 'text';
+                                icon.classList.replace('fa-eye', 'fa-eye-slash');
+                            } else {
+                                pwd.type = 'password';
+                                icon.classList.replace('fa-eye-slash', 'fa-eye');
+                            }
+                        }
+                    </script>
 
                     <div class="d-grid gap-2 mt-5">
                         <button type="submit" class="btn btn-green py-2 fw-bold shadow-sm">

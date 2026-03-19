@@ -29,13 +29,12 @@ class ProfileController extends Controller
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'phone' => ['required', 'string', 'max:20', Rule::unique('users')->ignore($user->id)],
-            'password' => ['nullable', 'string', 'min:8', 'confirmed'],
+            'password' => ['nullable', 'string', 'min:8'],
         ], [
             'name.required' => 'الاسم مطلوب',
             'phone.required' => 'رقم الهاتف مطلوب',
             'phone.unique' => 'رقم الهاتف مستخدم بالفعل',
             'password.min' => 'كلمة المرور يجب ألا تقل عن ٨ أحرف',
-            'password.confirmed' => 'تأكيد كلمة المرور غير متطابق',
         ]);
 
         $user->name = $request->name;
