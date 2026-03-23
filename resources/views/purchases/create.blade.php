@@ -286,6 +286,17 @@
 
             // البدء بصف واحد
             addRow();
+
+            // التحقق من وجود معرف منتج في الرابط
+            const urlParams = new URLSearchParams(window.location.search);
+            const productId = urlParams.get('product_id');
+            if (productId) {
+                const select = document.querySelector('.product-select');
+                if (select) {
+                    select.value = productId;
+                    updateRowData(select);
+                }
+            }
         </script>
     @endpush
 @endsection
