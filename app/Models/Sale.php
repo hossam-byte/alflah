@@ -52,7 +52,7 @@ class Sale extends Model
     // توليد رقم فاتورة تلقائي
     public static function generateInvoiceNumber(): string
     {
-        $last = self::latest()->first();
+        $last = self::withoutGlobalScopes()->latest('id')->first();
         $nextId = $last ? $last->id + 1 : 1;
         return 'SAL-' . str_pad($nextId, 5, '0', STR_PAD_LEFT);
     }

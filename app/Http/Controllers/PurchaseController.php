@@ -40,6 +40,7 @@ class PurchaseController extends Controller
     {
         $request->validate([
             'purchase_date' => 'required|date',
+            'invoice_number' => 'nullable|unique:purchases,invoice_number',
             'items' => 'required|array|min:1',
             'items.*.product_id' => 'required|exists:products,id',
             'items.*.quantity' => 'required|numeric|min:0.001',

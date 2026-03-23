@@ -41,6 +41,7 @@ class SaleController extends Controller
     {
         $request->validate([
             'customer_id' => 'nullable|exists:customers,id',
+            'invoice_number' => 'nullable|unique:sales,invoice_number',
             'sale_date' => 'required|date',
             'items' => 'required|array|min:1',
             'items.*.product_id' => 'required|exists:products,id',
