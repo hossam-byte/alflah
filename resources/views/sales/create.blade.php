@@ -125,7 +125,7 @@
             </td>
             <td class="text-center small text-muted"><span class="stock-display">0</span></td>
             <td>
-                <input type="number" step="0.001" name="items[INDEX][quantity]"
+                <input type="number" step="1" name="items[INDEX][quantity]"
                     class="form-control form-control-sm text-center qty-input" value="1" required
                     oninput="calculateRow(this)">
             </td>

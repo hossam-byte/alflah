@@ -56,7 +56,7 @@
                         </div>
                         <div class="col-6 col-md-4">
                             <label class="form-label">الحد الأدنى للتنبيه</label>
-                            <input type="number" step="0.001" name="min_stock" class="form-control"
+                            <input type="number" step="1" name="min_stock" class="form-control"
                                 value="{{ old('min_stock', $product->min_stock) }}" min="0">
                         </div>
                         <div class="col-6 col-md-4">
@@ -94,7 +94,7 @@
                                             </div>
                                             <div class="col-md-4">
                                                 <label class="form-label small">الكمية داخل الوحدة الكبيرة</label>
-                                                <input type="number" step="0.001" name="items_per_unit"
+                                                <input type="number" step="1" name="items_per_unit"
                                                     class="form-control form-control-sm"
                                                     value="{{ old('items_per_unit', $product->items_per_unit ?? 1) }}"
                                                     placeholder="مثلاً: 50">
