@@ -133,6 +133,18 @@ class SaleController extends Controller
         return view('sales.show', compact('sale'));
     }
 
+    public function print(Sale $sale, Request $request)
+    {
+        $sale->load(['customer', 'items.product', 'shop']);
+        $type = $request->get('type', 'simple');
+        
+        if ($type === 'detailed') {
+            return view('sales.print_detailed', compact('sale'));
+        }
+        
+        return view('sales.print', compact('sale'));
+    }
+
     public function edit(Sale $sale)
     {
         return redirect()->route('sales.show', $sale);

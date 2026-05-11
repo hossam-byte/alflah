@@ -45,6 +45,7 @@ Route::middleware(['auth', 'shop_active'])->group(function () {
 
     // العمليات
     Route::resource('purchases', PurchaseController::class);
+    Route::get('sales/{sale}/print', [SaleController::class, 'print'])->name('sales.print');
     Route::resource('sales', SaleController::class);
     Route::resource('expenses', ExpenseController::class);
 

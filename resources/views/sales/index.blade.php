@@ -92,8 +92,12 @@
                             </td>
                             <td>
                                 <div class="d-flex gap-1">
-                                    <a href="{{ route('sales.show', $s) }}" class="btn btn-sm btn-info rounded-pill px-2"><i
+                                    <a href="{{ route('sales.show', $s) }}" class="btn btn-sm btn-info rounded-pill px-2" title="عرض التفاصيل"><i
                                             class="fas fa-eye"></i></a>
+                                    <a href="{{ route('sales.print', $s) }}?type=detailed" target="_blank" class="btn btn-sm btn-primary rounded-pill px-2" title="طباعة مفصلة"><i
+                                            class="fas fa-print"></i></a>
+                                    <a href="{{ route('sales.print', $s) }}?type=simple" target="_blank" class="btn btn-sm btn-secondary rounded-pill px-2" title="طباعة بسيطة"><i
+                                            class="fas fa-receipt"></i></a>
                                     <form action="{{ route('sales.destroy', $s) }}" method="POST" class="delete-form"
                                         data-confirm="حذف الفاتورة سيعيد الكميات للمخزون، هل أنت متأكد؟">
                                         @csrf @method('DELETE')

@@ -61,12 +61,12 @@
                         </div>
                         <div class="col-6 col-md-4">
                             <label class="form-label">سعر الشراء (ج.م)</label>
-                            <input type="number" step="0.01" name="purchase_price" class="form-control"
+                            <input type="number" step="1" name="purchase_price" class="form-control"
                                 value="{{ old('purchase_price', $product->purchase_price) }}" min="0">
                         </div>
                         <div class="col-6 col-md-4">
                             <label class="form-label">سعر البيع (ج.م)</label>
-                            <input type="number" step="0.01" name="sale_price" class="form-control"
+                            <input type="number" step="1" name="sale_price" class="form-control"
                                 value="{{ old('sale_price', $product->sale_price) }}" min="0">
                         </div>
                         <div class="col-12">
@@ -101,7 +101,7 @@
                                             </div>
                                             <div class="col-md-4">
                                                 <label class="form-label small">سعر بيع التجزئة (ج.م)</label>
-                                                <input type="number" step="0.01" name="sub_unit_sale_price"
+                                                <input type="number" step="1" name="sub_unit_sale_price"
                                                     class="form-control form-control-sm"
                                                     value="{{ old('sub_unit_sale_price', $product->sub_unit_sale_price ?? 0) }}"
                                                     placeholder="سعر القطعة/الكيلو">

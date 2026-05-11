@@ -139,12 +139,15 @@
 
             {{-- Actions --}}
             <div class="mt-4 d-flex justify-content-center gap-2 d-print-none mb-5">
-                <a href="{{ route('sales.index') }}" class="btn btn-secondary px-4">
-                    <i class="fas fa-arrow-right me-2"></i> العودة لسجل المبيعات
+                <a href="{{ route('sales.index') }}" class="btn btn-secondary px-3">
+                    <i class="fas fa-arrow-right me-1"></i> العودة
                 </a>
-                <button onclick="window.print()" class="btn btn-green px-4">
-                    <i class="fas fa-print me-2"></i> طباعة الفاتورة
-                </button>
+                <a href="{{ route('sales.print', $sale) }}?type=detailed&autoprint=1" target="_blank" class="btn btn-primary px-3">
+                    <i class="fas fa-print me-1"></i> طباعة مفصلة
+                </a>
+                <a href="{{ route('sales.print', $sale) }}?type=simple&autoprint=1" target="_blank" class="btn btn-green px-3">
+                    <i class="fas fa-receipt me-1"></i> طباعة بسيطة (نفس الصورة)
+                </a>
             </div>
         </div>
     </div>

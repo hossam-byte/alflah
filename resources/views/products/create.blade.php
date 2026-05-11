@@ -63,12 +63,12 @@
                         </div>
                         <div class="col-6 col-md-4">
                             <label class="form-label">سعر الشراء (ج.م) <span class="text-danger">*</span></label>
-                            <input type="number" step="0.01" name="purchase_price" class="form-control"
+                            <input type="number" step="1" name="purchase_price" class="form-control"
                                 value="{{ old('purchase_price', 0) }}" required min="0">
                         </div>
                         <div class="col-6 col-md-4">
                             <label class="form-label">سعر البيع (ج.م) <span class="text-danger">*</span></label>
-                            <input type="number" step="0.01" name="sale_price" class="form-control"
+                            <input type="number" step="1" name="sale_price" class="form-control"
                                 value="{{ old('sale_price', 0) }}" required min="0">
                         </div>
                         <div class="col-12">

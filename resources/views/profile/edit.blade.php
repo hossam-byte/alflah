@@ -15,6 +15,17 @@
                     @method('PUT')
 
                     <div class="mb-4">
+                        <label for="shop_name" class="form-label fw-semibold small text-muted">اسم الشركة (يظهر في الفاتورة)</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-light border-end-0"><i class="fas fa-store text-muted"></i></span>
+                            <input type="text" name="shop_name" id="shop_name" class="form-control bg-light border-start-0 @error('shop_name') is-invalid @enderror" value="{{ old('shop_name', $user->shop->name ?? '') }}" required>
+                        </div>
+                        @error('shop_name')
+                            <div class="invalid-feedback d-block mt-1">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div class="mb-4">
                         <label for="name" class="form-label fw-semibold small text-muted">الاسم الكامل</label>
                         <div class="input-group">
                             <span class="input-group-text bg-light border-end-0"><i class="fas fa-user text-muted"></i></span>

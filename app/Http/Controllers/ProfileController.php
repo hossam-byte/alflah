@@ -27,15 +27,21 @@ class ProfileController extends Controller
         $user = Auth::user();
 
         $request->validate([
+            'shop_name' => ['required', 'string', 'max:255'],
             'name' => ['required', 'string', 'max:255'],
             'phone' => ['required', 'string', 'max:20', Rule::unique('users')->ignore($user->id)],
             'password' => ['nullable', 'string', 'min:8'],
         ], [
+            'shop_name.required' => 'اسم الشركة مطلوب',
             'name.required' => 'الاسم مطلوب',
             'phone.required' => 'رقم الهاتف مطلوب',
             'phone.unique' => 'رقم الهاتف مستخدم بالفعل',
             'password.min' => 'كلمة المرور يجب ألا تقل عن ٨ أحرف',
         ]);
+
+        if ($user->shop) {
+            $user->shop->update(['name' => $request->shop_name]);
+        }
 
         $user->name = $request->name;
         $user->phone = $request->phone;

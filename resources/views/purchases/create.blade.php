@@ -130,11 +130,11 @@
                     oninput="calculateRow(this)">
             </td>
             <td>
-                <input type="number" step="0.01" name="items[INDEX][unit_price]"
+                <input type="number" step="1" name="items[INDEX][unit_price]"
                     class="form-control form-control-sm text-center price-input" value="0" required
                     oninput="calculateRow(this)">
             </td>
-            <td class="text-center fw-bold row-total">0.00</td>
+            <td class="text-center fw-bold row-total">0</td>
             <td>
                 <button type="button" class="btn btn-sm btn-link text-danger p-0" onclick="removeRow(this)">
                     <i class="fas fa-times-circle fs-5"></i>
