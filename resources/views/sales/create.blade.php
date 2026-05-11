@@ -1,6 +1,6 @@
 @extends('layouts.app')
-@section('title', 'فاتورة مبيعات')
-@section('page-title', 'إنشاء فاتورة بيع')
+@section('title', $isQuotation ? 'إنشاء استعلام' : 'فاتورة مبيعات')
+@section('page-title', $isQuotation ? 'إنشاء استعلام (سعر)' : 'إنشاء فاتورة بيع')
 
 @section('content')
     <form action="{{ route('sales.store') }}" method="POST" id="sale-form">
@@ -10,7 +10,7 @@
             <div class="col-12 col-lg-4">
                 <div class="content-card">
                     <div class="content-card-header">
-                        <h6><i class="fas fa-cash-register me-2"></i> بيانات البيع</h6>
+                        <h6><i class="fas fa-{{ $isQuotation ? 'info-circle' : 'cash-register' }} me-2"></i> {{ $isQuotation ? 'بيانات الاستعلام' : 'بيانات البيع' }}</h6>
                     </div>
                     <div class="mb-3">
                         <label class="form-label">رقم الفاتورة</label>
@@ -27,8 +27,18 @@
                         </select>
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">تاريخ البيع <span class="text-danger">*</span></label>
+                        <label class="form-label">تاريخ {{ $isQuotation ? 'الاستعلام' : 'البيع' }} <span class="text-danger">*</span></label>
                         <input type="date" name="sale_date" class="form-control" value="{{ date('Y-m-d') }}" required>
+                    </div>
+                    <div class="mb-3">
+                        <div class="p-2 bg-light rounded border d-flex align-items-center justify-content-between">
+                            <label class="form-check-label fw-bold text-primary mb-0 cursor-pointer" for="is_quotation" style="cursor: pointer;">
+                                <i class="fas fa-info-circle me-1"></i> فاتورة استعلام (لا تخصم من المخزن)
+                            </label>
+                            <div class="form-check form-switch mb-0">
+                                <input class="form-check-input" type="checkbox" name="is_quotation" id="is_quotation" value="1" {{ $isQuotation ? 'checked' : '' }} style="width: 3em; height: 1.5em; cursor: pointer;">
+                            </div>
+                        </div>
                     </div>
                     <div class="mb-3">
                         <label class="form-label">ملاحظات</label>

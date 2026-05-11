@@ -13,7 +13,7 @@ class SaleController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Sale::with('customer');
+        $query = Sale::with('customer')->where('is_quotation', 0);
         if ($request->filled('search')) {
             $query->where('invoice_number', 'like', '%' . $request->search . '%');
         }
@@ -24,17 +24,34 @@ class SaleController extends Controller
             $query->where('payment_status', $request->status);
         }
         $sales = $query->latest()->paginate(15)->withQueryString();
-        $totalSales = Sale::sum('total_amount');
-        $totalProfit = Sale::sum('profit');
+        $totalSales = Sale::where('is_quotation', 0)->sum('total_amount');
+        $totalProfit = Sale::where('is_quotation', 0)->sum('profit');
         return view('sales.index', compact('sales', 'totalSales', 'totalProfit'));
     }
 
-    public function create()
+    public function inquiries(Request $request)
+    {
+        $query = Sale::with('customer')->where('is_quotation', 1);
+        if ($request->filled('search')) {
+            $query->where('invoice_number', 'like', '%' . $request->search . '%');
+        }
+        if ($request->filled('month')) {
+            $query->where('sale_date', 'like', $request->month . '%');
+        }
+        $sales = $query->latest()->paginate(15)->withQueryString();
+        $totalSales = Sale::where('is_quotation', 1)->sum('total_amount');
+        $totalProfit = 0; // لا توجد أرباح حقيقية في الاستعلامات
+        $isQuotationPage = true;
+        return view('sales.index', compact('sales', 'totalSales', 'totalProfit', 'isQuotationPage'));
+    }
+
+    public function create(Request $request)
     {
         $customers = Customer::where('is_active', true)->get();
         $products = Product::where('is_active', true)->with('category')->get();
         $invoiceNumber = Sale::generateInvoiceNumber();
-        return view('sales.create', compact('customers', 'products', 'invoiceNumber'));
+        $isQuotation = $request->get('type') === 'quotation';
+        return view('sales.create', compact('customers', 'products', 'invoiceNumber', 'isQuotation'));
     }
 
     public function store(Request $request)
@@ -55,6 +72,7 @@ class SaleController extends Controller
         DB::transaction(function () use ($request) {
             $totalAmount = 0;
             $totalProfit = 0;
+            $isQuotation = $request->boolean('is_quotation') ? 1 : 0;
 
             foreach ($request->items as $item) {
                 $product = Product::find($item['product_id']);
@@ -75,17 +93,20 @@ class SaleController extends Controller
 
             $discount = $request->discount ?? 0;
             $netTotal = $totalAmount - $discount;
-            $paidAmount = $request->paid_amount ?? $netTotal;
-            $status = $paidAmount >= $netTotal ? 'paid' : ($paidAmount > 0 ? 'partial' : 'unpaid');
+            
+            // في حالة الاستعلام: المدفوع صفر والحالة غير مدفوع
+            $paidAmount = $isQuotation ? 0 : ($request->paid_amount ?? $netTotal);
+            $status = $isQuotation ? 'unpaid' : ($paidAmount >= $netTotal ? 'paid' : ($paidAmount > 0 ? 'partial' : 'unpaid'));
 
             $sale = Sale::create([
                 'invoice_number' => $request->invoice_number ?? Sale::generateInvoiceNumber(),
+                'is_quotation' => $isQuotation,
                 'customer_id' => $request->customer_id,
                 'sale_date' => $request->sale_date,
                 'total_amount' => $netTotal,
                 'paid_amount' => $paidAmount,
                 'discount' => $discount,
-                'profit' => $totalProfit,
+                'profit' => $isQuotation ? 0 : $totalProfit,
                 'payment_status' => $status,
                 'notes' => $request->notes,
             ]);
@@ -109,22 +130,28 @@ class SaleController extends Controller
                     'unit_price' => $item['unit_price'],
                     'purchase_price' => $effectivePurchasePrice,
                     'total_price' => $lineTotal,
-                    'profit' => $profit,
+                    'profit' => $isQuotation ? 0 : $profit,
                     'unit_name' => $isSubUnit ? $product->sub_unit_name : $product->unit,
                     'is_sub_unit' => $isSubUnit,
                     'items_per_unit' => $product->items_per_unit,
                 ]);
 
-                // خصم من المخزون
-                $stockToDecrement = $isSubUnit
-                    ? ($item['quantity'] / max($product->items_per_unit, 1))
-                    : $item['quantity'];
+                // خصم من المخزون فقط لو مش فاتورة استعلام
+                if (!$isQuotation) {
+                    $stockToDecrement = $isSubUnit
+                        ? ($item['quantity'] / max($product->items_per_unit, 1))
+                        : $item['quantity'];
 
-                $product->decrement('stock', $stockToDecrement);
+                    $product->decrement('stock', $stockToDecrement);
+                }
             }
         });
 
-        return redirect()->route('sales.index')->with('success', 'تم حفظ فاتورة البيع بنجاح');
+        $isQuotation = $request->boolean('is_quotation');
+        $msg = $isQuotation ? 'تم حفظ فاتورة الاستعلام بنجاح' : 'تم حفظ فاتورة البيع بنجاح';
+        $route = $isQuotation ? 'sales.inquiries' : 'sales.index';
+        
+        return redirect()->route($route)->with('success', $msg);
     }
 
     public function show(Sale $sale)
@@ -137,11 +164,11 @@ class SaleController extends Controller
     {
         $sale->load(['customer', 'items.product', 'shop']);
         $type = $request->get('type', 'simple');
-        
+
         if ($type === 'detailed') {
             return view('sales.print_detailed', compact('sale'));
         }
-        
+
         return view('sales.print', compact('sale'));
     }
 

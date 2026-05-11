@@ -15,6 +15,7 @@ class Sale extends Model
     protected $fillable = [
         'shop_id',
         'invoice_number',
+        'is_quotation',
         'customer_id',
         'sale_date',
         'total_amount',
@@ -26,6 +27,7 @@ class Sale extends Model
     ];
 
     protected $casts = [
+        'is_quotation' => 'boolean',
         'sale_date' => 'date',
         'total_amount' => 'decimal:2',
         'paid_amount' => 'decimal:2',

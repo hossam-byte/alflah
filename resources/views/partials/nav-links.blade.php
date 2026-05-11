@@ -26,8 +26,11 @@
     <a href="{{ route('purchases.index') }}" class="{{ request()->routeIs('purchases.*') ? 'active' : '' }}">
         <i class="fas fa-shopping-cart"></i> المشتريات
     </a>
-    <a href="{{ route('sales.index') }}" class="{{ request()->routeIs('sales.*') ? 'active' : '' }}">
+    <a href="{{ route('sales.index') }}" class="{{ request()->routeIs('sales.index') ? 'active' : '' }}">
         <i class="fas fa-cash-register"></i> المبيعات
+    </a>
+    <a href="{{ route('sales.inquiries') }}" class="{{ request()->routeIs('sales.inquiries') ? 'active' : '' }}">
+        <i class="fas fa-info-circle"></i> الاستعلامات
     </a>
     <a href="{{ route('expenses.index') }}" class="{{ request()->routeIs('expenses.*') ? 'active' : '' }}">
         <i class="fas fa-receipt"></i> المصروفات
